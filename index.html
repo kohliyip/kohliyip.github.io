@@ -84,7 +84,7 @@ Please note that you must use a HM-10 compatible module for this example to work
 			el.innerHTML = "Fixed Screen 1 is Locked. Click to Unlock.";
 			app.device && app.device.writeDataArray(new Uint8Array([11]), '0000ffe1-0000-1000-8000-00805f9b34fb');
 		}
-	}
+	};
 
 	// Control fixed screen 1.
 	app.fs2 = function()
@@ -101,7 +101,7 @@ Please note that you must use a HM-10 compatible module for this example to work
 			el.innerHTML = "Fixed Screen 2 is Locked. Click to Unlock.";
 			app.device && app.device.writeDataArray(new Uint8Array([21]), '0000ffe1-0000-1000-8000-00805f9b34fb');
 		}
-	}
+	};
 
 	app.showMessage = function(info)
 	{
