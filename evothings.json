@@ -1,0 +1,14 @@
+{
+  "uuid": "23387664-eeaa-4705-9c20-c79ae83304e5",
+  "plugins": [],
+  "libraries": [],
+  "name": "sitce2018",
+  "title": "SITCE 2018 FS Controls",
+  "description": "Control of EM Locks for SITCE 2018",
+  "long-description": "App long description.",
+  "version": "",
+  "author-name": "Koh Li Yip",
+  "author-email": "koh.liyip@stee.stengg.com",
+  "author-url": "evo://sitce2018/myapp.html",
+  "cordova-id": "com.evothings.sitce.app"
+}

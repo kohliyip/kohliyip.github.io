@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<!--
+This is an app that demonstrates how to control an Arduio board
+using BLE (Bluetooth Low Energy).
+Please note that you must use a HM-10 compatible module for this example to work.
+-->
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no,
+		shrink-to-fit=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<title>HM-10 and Arduino Electromagnetic Lock Control</title>
+
+	<style>
+		@import 'ui/css/evothings-app.css';
+	</style>
+
+	<script>
+	// Redirect console.log to Evothings Workbench.
+	if (window.hyper && window.hyper.log) { console.log = hyper.log }
+	window.onerror = function(msg, url, line)
+	{
+		console.log(msg + ": " + url + ":" + line);
+	};
+	</script>
+
+	<script src="cordova.js"></script>
+	<script src="libs/jquery/jquery.js"></script>
+	<script src="libs/evothings/evothings.js"></script>
+	<script src="libs/evothings/ui/ui.js"></script>
+	<script src="libs/evothings/arduinoble/arduinoble.js"></script>
+
+</head>
+
+<body ontouchstart=""><!-- ontouchstart="" enables low-delay CSS transitions. -->
+
+	<header>
+		<button class="back" onclick="history.back()">
+			<img src="ui/images/arrow-left.svg" />
+		</button>
+
+		<img class="logotype" src="ui/images/ST Electronics Logo.png" alt="Evothings" />
+
+		<!--<button class="menu" onclick=""><img src="ui/images/menu.svg" /></button>-->
+	</header>
+
+	<h1>SITCE 2018 - Fixed Screen Locks</h1>
+
+	<p id="info">Initializing...</p>
+
+	<button class="yellow wide" onclick="app.connect()">CONNECT TO MOCKUP</button>
+
+	<br />
+
+	<button id="fs1" class="green wide big" onclick="app.fs1()">Fixed Screen 1 is Locked. Click to Unlock.</button>
+
+	<br />
+
+	<button id="fs2" class="green wide big" onclick="app.fs2()">Fixed Screen 2 is Locked. Click to Unlock.</button>
+
+	<script>
+	// Application object.
+	var app = {}
+
+	// Connected device.
+	app.device = null;
+	
+	//int data = 
+
+	// Control fixed screen 1.
+	app.fs1 = function()
+	{
+		var el = document.getElementById('fs1');
+
+		if (el.innerHTML == "Fixed Screen 1 is Locked. Click to Unlock.") {
+			el.setAttribute("class", "red wide big");
+			el.innerHTML = "Fixed Screen 1 is Unlocked. Click to Lock.";
+			app.device && app.device.writeDataArray(new Uint8Array([10]), '0000ffe1-0000-1000-8000-00805f9b34fb');
+		}
+		else{
+			el.setAttribute("class", "green wide big");
+			el.innerHTML = "Fixed Screen 1 is Locked. Click to Unlock.";
+			app.device && app.device.writeDataArray(new Uint8Array([11]), '0000ffe1-0000-1000-8000-00805f9b34fb');
+		}
+	}
+
+	// Control fixed screen 1.
+	app.fs2 = function()
+	{
+		var el = document.getElementById('fs2');
+
+		if (el.innerHTML == "Fixed Screen 2 is Locked. Click to Unlock.") {
+			el.setAttribute("class", "red wide big");
+			el.innerHTML = "Fixed Screen 2 is Unlocked. Click to Lock.";
+			app.device && app.device.writeDataArray(new Uint8Array([20]), '0000ffe1-0000-1000-8000-00805f9b34fb');
+		}
+		else{
+			el.setAttribute("class", "green wide big");
+			el.innerHTML = "Fixed Screen 2 is Locked. Click to Unlock.";
+			app.device && app.device.writeDataArray(new Uint8Array([21]), '0000ffe1-0000-1000-8000-00805f9b34fb');
+		}
+	}
+
+	app.showMessage = function(info)
+	{
+		document.getElementById('info').innerHTML = info
+	};
+
+	// Called when BLE and other native functions are available.
+	app.onDeviceReady = function()
+	{
+		app.showMessage('Touch the connect button to begin.');
+	};
+
+	app.connect = function()
+	{
+		evothings.arduinoble.close();
+
+		evothings.arduinoble.connect(
+			'HMSoft', // Name of the module.
+			function(device)
+			{
+				app.device = device;
+				app.showMessage('Connected! Touch buttons to lock and unlock fixed screens.');
+			},
+			function(errorCode)
+			{
+				app.showMessage('Connect error: ' + errorCode + '.');
+			});
+	};
+
+	document.addEventListener(
+		'deviceready',
+		function() { evothings.scriptsLoaded(app.onDeviceReady) },
+		false);
+	</script>
+
+</body>
+
+</html>
